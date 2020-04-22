@@ -5,16 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="out\out\web.config" />
-      <_ContentIncludedByDefault Remove="out\web.config" />
-      <_ContentIncludedByDefault Remove="out\appsettings.Development.json" />
-      <_ContentIncludedByDefault Remove="out\appsettings.json" />
-      <_ContentIncludedByDefault Remove="out\out\appsettings.Development.json" />
-      <_ContentIncludedByDefault Remove="out\out\appsettings.json" />
-      <_ContentIncludedByDefault Remove="out\out\Server.deps.json" />
-      <_ContentIncludedByDefault Remove="out\out\Server.runtimeconfig.json" />
-      <_ContentIncludedByDefault Remove="out\Server.deps.json" />
-      <_ContentIncludedByDefault Remove="out\Server.runtimeconfig.json" />
+      <PackageReference Include="Dapper" Version="2.0.35" />
+      <PackageReference Include="M2MqttDotnetCore" Version="1.1.0" />
+      <PackageReference Include="Npgsql" Version="4.1.3.1" />
     </ItemGroup>
 
 
