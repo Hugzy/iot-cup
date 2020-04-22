@@ -21,11 +21,13 @@ namespace Server
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>().UseUrls("http://*:80"); })
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<MqttBackgroundService>();
                     services.AddSingleton<IDbService, DbService>();
-                });
+                })
+                ;
     }
 }
