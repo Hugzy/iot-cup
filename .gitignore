@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/vim,rider,linux,macos,csharp,windows,visualstudio,jetbrains+all,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=vim,rider,linux,macos,csharp,windows,visualstudio,jetbrains+all,visualstudiocode
+# Created by https://www.gitignore.io/api/vim,rider,linux,macos,csharp,windows,dotnetcore,visualstudio,jetbrains+all,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=vim,rider,linux,macos,csharp,windows,dotnetcore,visualstudio,jetbrains+all,visualstudiocode
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -351,6 +351,16 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
+### DotnetCore ###
+# .NET Core build folders
+/bin
+/obj
+
+# Common node modules locations
+/node_modules
+/wwwroot/node_modules
+
 
 ### JetBrains+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
@@ -739,4 +749,4 @@ $RECYCLE.BIN/
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 
-# End of https://www.gitignore.io/api/vim,rider,linux,macos,csharp,windows,visualstudio,jetbrains+all,visualstudiocode
+# End of https://www.gitignore.io/api/vim,rider,linux,macos,csharp,windows,dotnetcore,visualstudio,jetbrains+all,visualstudiocode
