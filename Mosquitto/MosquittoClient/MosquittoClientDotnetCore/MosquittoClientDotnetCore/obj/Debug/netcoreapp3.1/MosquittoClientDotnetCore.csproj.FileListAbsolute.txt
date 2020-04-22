@@ -1,0 +1,15 @@
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\MosquittoClientDotnetCore.exe
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\MosquittoClientDotnetCore.deps.json
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\MosquittoClientDotnetCore.runtimeconfig.json
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\MosquittoClientDotnetCore.runtimeconfig.dev.json
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\MosquittoClientDotnetCore.dll
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\MosquittoClientDotnetCore.pdb
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\bin\Debug\netcoreapp3.1\M2Mqtt.dll
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.csprojAssemblyReference.cache
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.csproj.CoreCompileInputs.cache
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.AssemblyInfoInputs.cache
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.AssemblyInfo.cs
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.csproj.CopyComplete
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.dll
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.pdb
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClientDotnetCore\MosquittoClientDotnetCore\obj\Debug\netcoreapp3.1\MosquittoClientDotnetCore.genruntimeconfig.cache

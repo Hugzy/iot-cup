@@ -1,0 +1,8 @@
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\bin\Debug\MosquittoClient.exe
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\bin\Debug\MosquittoClient.pdb
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\bin\Debug\M2Mqtt.Net.dll
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\bin\Debug\M2Mqtt.Net.pdb
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\obj\Debug\MosquittoClient.csprojAssemblyReference.cache
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\obj\Debug\MosquittoClient.csproj.CopyComplete
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\obj\Debug\MosquittoClient.exe
+D:\Code\iot-cup\Mosquitto\MosquittoClient\MosquittoClient\MosquittoClient\obj\Debug\MosquittoClient.pdb
