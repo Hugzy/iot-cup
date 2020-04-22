@@ -18,7 +18,7 @@ namespace MosquittoClientDotnetCore
         public static void Main(string[] args)
         {
             SubMqtt();
-            PubMqtt();
+            //PubMqtt();
         }
 
         private static void PubMqtt()
