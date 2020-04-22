@@ -1,0 +1,4 @@
+https://github.com/plapointe6/EspMQTTClient
+https://github.com/knolleary/pubsubclient
+https://github.com/Links2004/arduinoWebSockets
+https://github.com/dersimn/ArduinoPubSubClientTools
