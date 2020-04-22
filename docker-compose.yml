@@ -7,7 +7,3 @@ services:
             - "9001:9001"
         volumes:
             - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
-            - logs:/mosquitto/log/mosquitto.log
-
-volumes:
-    logs:
