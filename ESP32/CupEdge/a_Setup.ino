@@ -31,4 +31,5 @@ void setupWifi(){
     delay(100);
   }
   Serial.println(WiFi.localIP());
+  macaddres = WiFi.macAddress();
 }

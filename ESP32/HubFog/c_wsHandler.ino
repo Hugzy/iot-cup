@@ -15,7 +15,11 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
       break;
     case WStype_TEXT:
       USE_SERIAL.printf("[%u] get Text: %s\n", num, payload);
-
+      if (mqttClient.isMqttConnected()) {
+        String test = jsonfyMacadress("SuckMac");
+        Serial.println(test);
+        mqttClient.publish("/cup/connect",test );
+      }
       // send message to client
       // webSocket.sendTXT(num, "message here");
 

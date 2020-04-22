@@ -1,9 +1,9 @@
+
+
 void setup() {
   setupSerial();
   setupWifi();
   setupWebsocket();
-
-
 }
 
 void setupSerial() {

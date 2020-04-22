@@ -1,6 +1,6 @@
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
-  switch(type) {
+  switch (type) {
     case WStype_DISCONNECTED:
       USE_SERIAL.printf("[WSc] Disconnected!\n");
       break;
@@ -8,7 +8,9 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       USE_SERIAL.printf("[WSc] Connected to url: %s\n", payload);
 
       // send message to server when Connected
-      //webSocket.sendTXT("Connected");
+      Serial.println(macaddres);
+      //String jmacaddres = jsonfyMacadress(macaddres);
+      webSocket.sendTXT(macaddres);
       break;
     case WStype_TEXT:
       USE_SERIAL.printf("[WSc] get text: %s\n", payload);
@@ -16,18 +18,18 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       // send message to server
       // webSocket.sendTXT("message here");
       break;
-    case WStype_BIN:
-    case WStype_ERROR:      
-    case WStype_FRAGMENT_TEXT_START:
-    case WStype_FRAGMENT_BIN_START:
-    case WStype_FRAGMENT:
+    case WStype_BIN: break;
+    case WStype_ERROR: break;
+    case WStype_FRAGMENT_TEXT_START: break;
+    case WStype_FRAGMENT_BIN_START: break;
+    case WStype_FRAGMENT: break;
     case WStype_FRAGMENT_FIN:
       break;
   }
 
 }
 
-void setupWebsocket(){
+void setupWebsocket() {
   // server address, port and URL
   webSocket.begin("192.168.1.135", 81, "/");
 
