@@ -7,3 +7,21 @@ services:
             - "9001:9001"
         volumes:
             - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    db:
+        image: postgres
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: dininfo1
+        volumes:
+            - data:/var/lib/postgresql/data
+
+volumes:
+    data:
+        driver: local
+
+networks:
+    default:
+        driver: bridge
