@@ -1,41 +1,13 @@
-
-version: '3'
-
+version: "3"
 services:
-  #node:
-  #  image: magida/iot-uplink
-  #  restart: always
-  #  ports:
-  #    - "80:3000"
-  db:
-    image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: dininfo1
-    volumes:
-      - data:/var/lib/postgresql/data
-
-  rabbit:
-    image: magida/rabbitmq-mqtt
-    restart: always
-    hostname: rabbit
-    environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: passw0rd
-      RABBITMQ_DEFAULT_VHOST: dev
-    ports:
-      - 15672:15672
-      - 5672:5672
-    volumes:
-      - rabbitmq:/var/lib/rabbitmq
+    mosquitto:
+        image: eclipse-mosquitto
+        ports:
+            - "1883:1883"
+            - "9001:9001"
+        volumes:
+            - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+            - logs:/mosquitto/log/mosquitto.log
 
 volumes:
-  rabbitmq:
-  data:
-
-networks:
-  default:
-    driver: bridge
+    logs:
