@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using Dapper;
 using Npgsql;
@@ -43,12 +44,9 @@ namespace Server.Services
 
         public void Temperature(string jsonStr)
         {
-            var temperature = JsonSerializer.Deserialize<Temperature>(jsonStr);
-            
+            var temperature = JsonSerializer.Deserialize<TemperatureTO>(jsonStr).Transform();
             using var conn = GetDbConnection();
             conn.Execute(InsertTemperature, temperature);
-
-
         }
 
         public void DisconnectCup(string jsonStr)

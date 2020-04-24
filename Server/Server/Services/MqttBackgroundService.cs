@@ -29,8 +29,8 @@ namespace Server.Services
             _clientId = Guid.NewGuid().ToString();
             _client.Connect(_clientId);
             // subscribe to the topic "/cup/connect" with QoS 2 
-            _client.Subscribe(new string[] {Topics.CONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-            _client.Subscribe(new string[] {Topics.DISCONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+            _client.Subscribe(new[] {Topics.CONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+            _client.Subscribe(new[] {Topics.DISCONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             return Task.CompletedTask;
         }
 

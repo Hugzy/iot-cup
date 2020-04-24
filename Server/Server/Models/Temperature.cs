@@ -2,7 +2,7 @@
 {
     public class Temperature
     {
-        string Id { get; set; }
-        float Tvalue { get; set; }
+        public string Id { get; set; }
+        public double Tvalue { get; set; }
     }
 }
