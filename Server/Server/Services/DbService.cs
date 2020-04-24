@@ -17,12 +17,13 @@ namespace Server.Services
         private string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
         private string sqlGetCups = "SELECT * FROM tcup";
         private string InsertTemperature = "INSERT INTO ttemperature (id, tvalue) values (@Id, @Tvalue)";
-        
-        
+        private string sqlCupDisconnected = "UPDATE tcup SET connected = false WHERE id = @Id";
+
         private NpgsqlConnection GetDbConnection()
         {
             return new NpgsqlConnection("User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
         }
+        
         public void ConnectCup(string jsonStr)
         {
             var cup = JsonSerializer.Deserialize<Cup>(jsonStr);
@@ -48,6 +49,24 @@ namespace Server.Services
             conn.Execute(InsertTemperature, temperature);
 
 
+        }
+
+        public void DisconnectCup(string jsonStr)
+        {
+            var cup = JsonSerializer.Deserialize<Cup>(jsonStr);
+            using (var connection = GetDbConnection())
+            {
+                var existingCup = connection.QueryFirstOrDefault<Cup>(sqlCheckCup, cup);
+                if (existingCup != null)
+                {
+                    connection.Execute(sqlCupDisconnected, cup);
+                }
+                else
+                {
+                    connection.Execute(sqlCupInsert, cup);
+                    connection.Execute(sqlCupDisconnected, cup);
+                }
+            }
         }
 
         public IEnumerable<Cup> GetCups()

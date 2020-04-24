@@ -30,7 +30,7 @@ namespace Server.Services
             _client.Connect(_clientId);
             // subscribe to the topic "/cup/connect" with QoS 2 
             _client.Subscribe(new string[] {Topics.CONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-            
+            _client.Subscribe(new string[] {Topics.DISCONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             return Task.CompletedTask;
         }
 
@@ -48,6 +48,10 @@ namespace Server.Services
                     var jsonStr = Encoding.UTF8.GetString(e.Message);
                     _dbService.ConnectCup(jsonStr);
                     break;
+                case Topics.DISCONNECT:
+                    var jsonString = Encoding.UTF8.GetString(e.Message);
+                    _dbService.DisconnectCup(jsonString);
+                    break;
                 case Topics.TEST:
                     Console.WriteLine("Some donkey is doing testing");
                     break;
@@ -58,7 +62,6 @@ namespace Server.Services
                 default:
                     break;
             }
-           
         }
     }
 }

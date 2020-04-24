@@ -10,5 +10,6 @@ namespace Server.Services.Interfaces
         public void Temperature(string jsonStr);
         
         public IEnumerable<Cup> GetCups();
+        public void DisconnectCup(string jsonStr);
     }
 }
