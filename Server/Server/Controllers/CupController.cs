@@ -21,5 +21,17 @@ namespace Server.Controllers
         {
             return _dbService.GetCups();
         }
+
+        [HttpGet("{id}")]
+        public Cup GetCup(string id)
+        {
+            return new Cup();
+        }
+
+        [HttpPost]
+        public ActionResult PostCup([FromBody] Cup cup)
+        {
+            return Ok();
+        }
     }
 }
