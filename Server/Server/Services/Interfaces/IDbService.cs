@@ -7,6 +7,8 @@ namespace Server.Services.Interfaces
     {
         public void ConnectCup(string jsonStr);
 
+        public void Temperature(string jsonStr);
+        
         public IEnumerable<Cup> GetCups();
     }
 }

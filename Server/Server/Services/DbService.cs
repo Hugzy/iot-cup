@@ -16,6 +16,8 @@ namespace Server.Services
         private string sqlCheckCup = "SELECT * FROM tcup WHERE id = @Id";
         private string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
         private string sqlGetCups = "SELECT * FROM tcup";
+        private string InsertTemperature = "INSERT INTO ttemperature (id, tvalue) values (@Id, @Tvalue)";
+        
         
         private NpgsqlConnection GetDbConnection()
         {
@@ -36,6 +38,16 @@ namespace Server.Services
                     var affectedRows = connection.Execute(sqlCupInsert, cup);
                 }
             }
+        }
+
+        public void Temperature(string jsonStr)
+        {
+            var temperature = JsonSerializer.Deserialize<Temperature>(jsonStr);
+            
+            using var conn = GetDbConnection();
+            conn.Execute(InsertTemperature, temperature);
+
+
         }
 
         public IEnumerable<Cup> GetCups()
