@@ -17,6 +17,11 @@ services:
             POSTGRES_PASSWORD: dininfo1
         volumes:
             - data:/var/lib/postgresql/data
+    server:
+        image: magida/iot-server
+        ports:
+            - "80:5000"
+        
 
 volumes:
     data:

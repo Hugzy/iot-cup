@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Server.Models;
 using Server.Services.Interfaces;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -28,8 +29,8 @@ namespace Server.Services
             _clientId = Guid.NewGuid().ToString();
             _client.Connect(_clientId);
             // subscribe to the topic "/cup/connect" with QoS 2 
-            _client.Subscribe(new string[] {"/cup/connect"}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-            
+            _client.Subscribe(new string[] {Topics.CONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+            _client.Subscribe(new string[] {Topics.DISCONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             return Task.CompletedTask;
         }
 
@@ -43,19 +44,24 @@ namespace Server.Services
         {
             switch (e.Topic)
             {
-                case "/cup/connect":
+                case Topics.CONNECT:
                     var jsonStr = Encoding.UTF8.GetString(e.Message);
                     _dbService.ConnectCup(jsonStr);
                     break;
-                case "/test/mytopic":
+                case Topics.DISCONNECT:
+                    var jsonString = Encoding.UTF8.GetString(e.Message);
+                    _dbService.DisconnectCup(jsonString);
+                    break;
+                case Topics.TEST:
                     Console.WriteLine("Some donkey is doing testing");
+                    break;
+                case Topics.TEMPERATURE:
+                    var temperature = Encoding.UTF8.GetString(e.Message);
+                    _dbService.Temperature(temperature);
                     break;
                 default:
                     break;
             }
-           
         }
-
-        
     }
 }
