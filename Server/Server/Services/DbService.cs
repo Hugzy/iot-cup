@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Text.Json;
 using Dapper;
 using Npgsql;
 using Server.Models;
@@ -14,6 +15,7 @@ namespace Server.Services
 
         private string sqlCheckCup = "SELECT * FROM tcup WHERE id = @Id";
         private string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
+        private string sqlGetCups = "SELECT * FROM tcup";
         
         private NpgsqlConnection GetDbConnection()
         {
@@ -33,6 +35,15 @@ namespace Server.Services
                 {
                     var affectedRows = connection.Execute(sqlCupInsert, cup);
                 }
+            }
+        }
+
+        public IEnumerable<Cup> GetCups()
+        {
+            using (var connection = GetDbConnection())
+            {
+                var enumerable = connection.Query<Cup>(sqlGetCups);
+                return enumerable;
             }
         }
     }
