@@ -21,13 +21,15 @@ WebSocketsClient webSocket;
 
 
 //Json Capacity
-const size_t jsonCap_Connected = JSON_OBJECT_SIZE(2);
+const size_t jsonCap_send = JSON_OBJECT_SIZE(4) + 80;
 
 
 #define USE_SERIAL Serial
 
-
+int I = 0;
 
 void loop() {
   webSocket.loop();
+  
+  //processTemp();
 }
