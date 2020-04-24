@@ -22,11 +22,12 @@ const char* brokerHost =  "167.172.184.103";
 WebSocketsServer webSocket = WebSocketsServer(81);
 
 //Json Capacity
-const size_t jsonCap_Connected = JSON_OBJECT_SIZE(1);
-
+const size_t jsonCap_SendMac = JSON_OBJECT_SIZE(4) + 80;
+const size_t jsonCap_Send = JSON_OBJECT_SIZE(4) + 80;
+const size_t jsonCap_ReceiveEdge = JSON_OBJECT_SIZE(4) + 80;
 
 #define USE_SERIAL Serial
-
+String connectedEdges[10];
 
 EspMQTTClient mqttClient(
   ssid,
@@ -37,7 +38,6 @@ EspMQTTClient mqttClient(
   "TestClient",     // Client name that uniquely identify your device
   1883              // The MQTT port, default to 1883. this line can be omitted
 );
-
 
 
 void loop() {
