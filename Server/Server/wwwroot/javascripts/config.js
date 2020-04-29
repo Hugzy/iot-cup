@@ -56,4 +56,5 @@ async function fetchInitialCup() {
     });
 }
 
+
 fetchInitialCup();

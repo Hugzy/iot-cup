@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Dapper;
 using Npgsql;
 using Server.Models;
@@ -10,28 +11,34 @@ namespace Server.Services
 {
     public class DbService : IDbService
     {
-        
         private string sqlCupInsert =
             "INSERT INTO tcup (id,displayname,connected) Values (@Id,'SomeRandomCupName',true)";
 
+        // private string sqlGetTemperature = "WITH cte as (SELECT row_number() OVER (partition BY id ORDER BY dt DESC) AS rn, id, dt, temp FROM ttemperature ) SELECT id,temp,dt FROM cte WHERE rn=1 AND id = @Id ORDER BY dt DESC LIMIT @Limit;";
+        private string sqlGetTemperature = "SELECT id,temp,dt FROM ttemperature WHERE id = @Id ORDER BY dt DESC LIMIT @Limit;";
+        
         private string sqlCheckCup = "SELECT * FROM tcup WHERE id = @Id";
         private string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
         private string sqlGetCups = "SELECT * FROM tcup";
         private string sqlInsertTemperature = "INSERT INTO ttemperature (id, temp) values (@Id, @Temp)";
         private string sqlCupDisconnected = "UPDATE tcup SET connected = false WHERE id = @Id";
-        private string sqlCupUpdate = "UPDATE tcup SET displayname = @DisplayName, mintemp = @MinTemp, maxtemp = @MaxTemp WHERE id = @Id";
+
+        private string sqlCupUpdate =
+            "UPDATE tcup SET displayname = @DisplayName, mintemp = @MinTemp, maxtemp = @MaxTemp WHERE id = @Id";
 
         private JsonSerializerOptions _jsonOptions;
 
         public DbService()
         {
-            _jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            _jsonOptions = new JsonSerializerOptions {PropertyNameCaseInsensitive = true};
         }
+
         private NpgsqlConnection GetDbConnection()
         {
-            return new NpgsqlConnection("User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
+            return new NpgsqlConnection(
+                "User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
         }
-        
+
         public void ConnectCup(string jsonStr)
         {
             var cup = JsonSerializer.Deserialize<Cup>(jsonStr, _jsonOptions);
@@ -49,9 +56,17 @@ namespace Server.Services
             }
         }
 
+        public async Task<IEnumerable<Temperature>> GetTemperature(string id, int limit)
+        {
+            await using var conn = GetDbConnection();
+            var parameters = new {Id = id, Limit = limit};
+            var res = await conn.QueryAsync<Temperature>(sqlGetTemperature, parameters);
+            return res;
+        }
+
         public void InsertTemperature(string jsonStr)
         {
-            var temp = JsonSerializer.Deserialize<TemperatureTO>(jsonStr,_jsonOptions);
+            var temp = JsonSerializer.Deserialize<TemperatureTO>(jsonStr, _jsonOptions);
             var temperature = temp.Transform();
             using var conn = GetDbConnection();
             conn.Execute(sqlInsertTemperature, temperature);
@@ -80,7 +95,7 @@ namespace Server.Services
             using (var connection = GetDbConnection())
             {
                 var parameters = new {Id = id};
-                return connection.QueryFirstOrDefault<Cup>(sqlCheckCup,parameters);
+                return connection.QueryFirstOrDefault<Cup>(sqlCheckCup, parameters);
             }
         }
 
@@ -88,7 +103,8 @@ namespace Server.Services
         {
             using (var connection = GetDbConnection())
             {
-                var parameters = new {Id = id,DisplayName = cup.InputName, MaxTemp = cup.MaxTemp, MinTemp = cup.MinTemp};
+                var parameters = new
+                    {Id = id, DisplayName = cup.InputName, MaxTemp = cup.MaxTemp, MinTemp = cup.MinTemp};
                 connection.Execute(sqlCupUpdate, parameters);
             }
         }
