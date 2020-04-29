@@ -33,7 +33,7 @@ function disconnectedCupElementCreator(cup){
         `        <li class="list-group-item">Max-Temp: ${cup.maxtemp} °C</li>\n ` +
         `        <li class="list-group-item">Min-Temp: ${cup.mintemp} °C</li>\n ` +
         `    </ul>\n` +
-        '<div></div>'
+        '<div></div>' +
         '  </div>\n' +
         '  <p style="font-family: \'Helvetica Neue\';font-size: 12px;text-align: center">Made by: JFD</p>\n' +
         '</div>\n'
