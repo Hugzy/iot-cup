@@ -25,7 +25,14 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         public Cup GetCup(string id)
         {
-            return new Cup();
+            return _dbService.GetCup(id);
+        }
+
+        [HttpPost("update/{id}")]
+        public ActionResult UpdateCup(string id, [FromForm] CupFormData cup)
+        {
+            _dbService.UpdateCup(id, cup);
+            return Redirect("/index.html");
         }
 
         [HttpPost]

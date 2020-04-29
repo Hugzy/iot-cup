@@ -1,5 +1,5 @@
 var amountOfCards = 0;
-var host = "http://localhost:80"
+const host = "http://localhost:80"
 class Cup {
     constructor(mac,name,mintemp,maxtemp,connected){
         this.mac = mac;
@@ -24,8 +24,8 @@ function disconnectedCupElementCreator(cup){
         '      <span class="badge badge-danger">Disconnected</span>\n' +
         '    </div>\n' +
         `    <ul class="list-group list-group-flush">\n ` +
-        `        <li class="list-group-item">Max-Temp: ${cup.maxtemp}</li>\n ` +
-        `         <li class="list-group-item">Min-Temp: ${cup.mintemp}</li>\n ` +
+        `        <li class="list-group-item">Max-Temp: ${cup.maxtemp} °C</li>\n ` +
+        `         <li class="list-group-item">Min-Temp: ${cup.mintemp} °C</li>\n ` +
         `    </ul>\n` +
         '  </div>\n' +
         '  <p style="font-family: \'Comic Sans MS\';font-size: 10px;text-align: center">Made by: JFD</p>\n' +
@@ -46,8 +46,8 @@ function connectedCupElementCreator(cup){
         '      <span class="badge badge-primary">Connected</span>\n' +
         '    </div>\n' +
         `    <ul class="list-group list-group-flush">\n ` +
-        `        <li class="list-group-item">Max-Temp: ${cup.maxtemp}</li>\n ` +
-        `         <li class="list-group-item">Min-Temp: ${cup.mintemp}</li>\n ` +
+        `        <li class="list-group-item">Max-Temp: ${cup.maxtemp} °C</li>\n ` +
+        `         <li class="list-group-item">Min-Temp: ${cup.mintemp} °C</li>\n ` +
         `    </ul>\n` +
         `    <a href="${host}/config.html?id=${cup.mac}" class="btn btn-primary" style="margin-top: 1rem">Configure</a>` +
         '  </div>\n' +

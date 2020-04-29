@@ -11,13 +11,14 @@ namespace Server.Services
     {
         
         private string sqlCupInsert =
-            "INSERT INTO tcup (id,display_name,connected) Values (@Id,'SomeRandomCupName',true)";
+            "INSERT INTO tcup (id,displayname,connected) Values (@Id,'SomeRandomCupName',true)";
 
         private string sqlCheckCup = "SELECT * FROM tcup WHERE id = @Id";
         private string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
         private string sqlGetCups = "SELECT * FROM tcup";
-        private string InsertTemperature = "INSERT INTO ttemperature (id, tvalue) values (@Id, @Tvalue)";
+        private string InsertTemperature = "INSERT INTO ttemperature (id, tvalue) values (@Id, @Temp)";
         private string sqlCupDisconnected = "UPDATE tcup SET connected = false WHERE id = @Id";
+        private string sqlCupUpdate = "UPDATE tcup SET displayname = @DisplayName, mintemp = @MinTemp, maxtemp = @MaxTemp WHERE id = @Id";
 
         private NpgsqlConnection GetDbConnection()
         {
@@ -66,6 +67,24 @@ namespace Server.Services
                     connection.Execute(sqlCupInsert, cup);
                     connection.Execute(sqlCupDisconnected, cup);
                 }
+            }
+        }
+
+        public Cup GetCup(string id)
+        {
+            using (var connection = GetDbConnection())
+            {
+                var parameters = new {Id = id};
+                return connection.QueryFirstOrDefault<Cup>(sqlCheckCup,parameters);
+            }
+        }
+
+        public void UpdateCup(string id, CupFormData cup)
+        {
+            using (var connection = GetDbConnection())
+            {
+                var parameters = new {Id = id,DisplayName = cup.InputName, MaxTemp = cup.MaxTemp, MinTemp = cup.MinTemp};
+                connection.Execute(sqlCupUpdate, parameters);
             }
         }
 

@@ -11,5 +11,7 @@ namespace Server.Services.Interfaces
         
         public IEnumerable<Cup> GetCups();
         public void DisconnectCup(string jsonStr);
+        public Cup GetCup(string id);
+        public void UpdateCup(string id, CupFormData cup);
     }
 }
