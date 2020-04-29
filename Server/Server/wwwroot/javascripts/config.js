@@ -17,7 +17,7 @@ function connectedCupElementCreator(cup) {
     mainDiv.innerHTML += `<form action="${host}/api/cup/update/${cup.mac}" method="post">\n` +
         '<div class="form-group">\n' +
         '<label for="InputName">Cup Name</label>\n' +
-        '<input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter new name">\n' +
+        `<input type="text" class="form-control" name="InputName" id="InputName" value="${cup.name}">\n` +
         '</div>\n' +
         '<div class="form-row">\n' +
         '<div class="col">\n' +
@@ -35,6 +35,7 @@ function connectedCupElementCreator(cup) {
 
 function disconnectedCupElementCreator(cup) {
     var mainDiv = document.getElementById('main');
+    mainDiv.innerHTML += `<h1>Cup: ${cup.name} is not connected</h1>`
 }
 
 
