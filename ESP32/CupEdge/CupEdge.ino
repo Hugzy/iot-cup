@@ -27,13 +27,19 @@ const size_t jsonCap_Receive= JSON_OBJECT_SIZE(4) + 80;
 // Thread
 Thread* tempCollectThread = new Thread();
 Thread* tempMonitorThread = new Thread();
+Thread* locaterThread = new Thread();
 
-StaticThreadController<2> controll (tempCollectThread, tempMonitorThread);
+StaticThreadController<3> controll (tempCollectThread, tempMonitorThread, locaterThread);
 
 #define USE_SERIAL Serial
 
 int ComfortMinTemp = 0;
 int ComfortMaxTemp = 0;
+
+int LED_LOCATE = 32;
+const int buzzer = 27;  // Buzzer pin
+
+bool locateCup = false;
 
 
 void loop() {

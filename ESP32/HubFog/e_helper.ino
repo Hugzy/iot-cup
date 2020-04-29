@@ -19,6 +19,16 @@ String jsonfyTemp(String mac, int temp ) {
 }
 
 
+String jsonfyLocate(String mac) {
+  DynamicJsonDocument doc(jsonCap_Send);
+  doc["Action"] = "locate";
+  doc["Id"] = mac;
+
+  String stringfied;
+  serializeJson(doc, stringfied);
+  return stringfied;
+}
+
 
 String jsonfyTempRange(String mac, int minTemp, int maxTemp ) {
   DynamicJsonDocument doc(jsonCap_Send);

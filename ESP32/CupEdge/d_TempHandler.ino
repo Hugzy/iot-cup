@@ -18,10 +18,10 @@ void processCollectTemp() {
   }
 }
 
-
 void monitorTemp() {
- 
-  if (currentTemperature >= ComfortMinTemp && currentTemperature <= ComfortMaxTemp) {
+
+  if (!(currentTemperature >= ComfortMinTemp && currentTemperature <= ComfortMaxTemp)) {
     Serial.println("Temperature is violated");
+    
   }
 }

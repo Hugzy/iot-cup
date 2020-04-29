@@ -23,7 +23,15 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
           if (action == "tempConfig") {
             ComfortMinTemp = json["MinTemp"];
             ComfortMaxTemp = json["MaxTemp"];
+          } else if (action == "locate") {
+            String mac = json["Id"];
+            if (mac == macaddres){
+              locateCup = true;  
+            }
           }
+
+
+          
       break;
     }
   }
