@@ -31,7 +31,7 @@ namespace Server.Services
             // subscribe to the topic "/cup/connect" with QoS 2 
             _client.Subscribe(new string[] {Topics.CONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             _client.Subscribe(new string[] {Topics.DISCONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-            _client.Subscribe(new[] {Topics.TEMPERATURE}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+            _client.Subscribe(new string[] {Topics.TEMPERATURE}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             return Task.CompletedTask;
         }
 

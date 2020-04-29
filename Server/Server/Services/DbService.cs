@@ -20,7 +20,7 @@ namespace Server.Services
         private string sqlInsertTemperature = "INSERT INTO ttemperature (id, temp) values (@Id, @Temp)";
         private string sqlCupDisconnected = "UPDATE tcup SET connected = false WHERE id = @Id";
         private string sqlCupUpdate = "UPDATE tcup SET displayname = @DisplayName, mintemp = @MinTemp, maxtemp = @MaxTemp WHERE id = @Id";
-
+        
         private JsonSerializerOptions _jsonOptions;
 
         public DbService()
