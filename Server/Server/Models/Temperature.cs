@@ -1,8 +1,12 @@
-﻿namespace Server.Models
+﻿using System;
+
+namespace Server.Models
 {
     public class Temperature
     {
-        string Id { get; set; }
-        float Tvalue { get; set; }
+        public string Id { get; set; }
+        public double Temp { get; set; }
+        
+        public DateTime Dt { get; set; }
     }
 }
