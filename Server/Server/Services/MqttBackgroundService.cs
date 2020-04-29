@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,13 +18,15 @@ namespace Server.Services
         private MqttClient _client;
         private string _clientId;
         private IDbService _dbService;
+        private ChannelReader<CupConfig> _mqttConfigChannelReader;
         
-        public MqttBackgroundService(IDbService dbService)
+        public MqttBackgroundService(IDbService dbService, Channel<CupConfig> mqttConfigChannel)
         {
             _dbService = dbService;
+            _mqttConfigChannelReader = mqttConfigChannel.Reader;
         }
         
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             _client = new MqttClient("167.172.184.103");
             _client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
@@ -32,7 +36,12 @@ namespace Server.Services
             _client.Subscribe(new string[] {Topics.CONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             _client.Subscribe(new string[] {Topics.DISCONNECT}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             _client.Subscribe(new string[] {Topics.TEMPERATURE}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-            return Task.CompletedTask;
+            
+            await foreach (var item in _mqttConfigChannelReader.ReadAllAsync(cancellationToken))
+            {
+                var strValue = JsonSerializer.Serialize(item);
+                _client.Publish("/cup/temprange", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
