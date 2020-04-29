@@ -58,7 +58,7 @@ namespace Server.Services
                     break;
                 case Topics.TEMPERATURE:
                     var temperature = Encoding.UTF8.GetString(e.Message);
-                    _dbService.Temperature(temperature);
+                    _dbService.InsertTemperature(temperature);
                     break;
                 default:
                     break;

@@ -17,10 +17,16 @@ namespace Server.Services
         private string sqlCheckCup = "SELECT * FROM tcup WHERE id = @Id";
         private string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
         private string sqlGetCups = "SELECT * FROM tcup";
-        private string InsertTemperature = "INSERT INTO ttemperature (id, tvalue) values (@Id, @Temp)";
+        private string sqlInsertTemperature = "INSERT INTO ttemperature (id, temp) values (@Id, @Temp)";
         private string sqlCupDisconnected = "UPDATE tcup SET connected = false WHERE id = @Id";
         private string sqlCupUpdate = "UPDATE tcup SET displayname = @DisplayName, mintemp = @MinTemp, maxtemp = @MaxTemp WHERE id = @Id";
 
+        private JsonSerializerOptions _jsonOptions;
+
+        public DbService()
+        {
+            _jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        }
         private NpgsqlConnection GetDbConnection()
         {
             return new NpgsqlConnection("User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
@@ -28,7 +34,7 @@ namespace Server.Services
         
         public void ConnectCup(string jsonStr)
         {
-            var cup = JsonSerializer.Deserialize<Cup>(jsonStr);
+            var cup = JsonSerializer.Deserialize<Cup>(jsonStr, _jsonOptions);
             using (var connection = GetDbConnection())
             {
                 var existingCup = connection.QueryFirstOrDefault<Cup>(sqlCheckCup, cup);
@@ -43,16 +49,17 @@ namespace Server.Services
             }
         }
 
-        public void Temperature(string jsonStr)
+        public void InsertTemperature(string jsonStr)
         {
-            var temperature = JsonSerializer.Deserialize<TemperatureTO>(jsonStr).Transform();
+            var temp = JsonSerializer.Deserialize<TemperatureTO>(jsonStr,_jsonOptions);
+            var temperature = temp.Transform();
             using var conn = GetDbConnection();
-            conn.Execute(InsertTemperature, temperature);
+            conn.Execute(sqlInsertTemperature, temperature);
         }
 
         public void DisconnectCup(string jsonStr)
         {
-            var cup = JsonSerializer.Deserialize<Cup>(jsonStr);
+            var cup = JsonSerializer.Deserialize<Cup>(jsonStr, _jsonOptions);
             using (var connection = GetDbConnection())
             {
                 var existingCup = connection.QueryFirstOrDefault<Cup>(sqlCheckCup, cup);

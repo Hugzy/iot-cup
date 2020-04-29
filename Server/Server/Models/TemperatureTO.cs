@@ -2,8 +2,8 @@
 {
     public class TemperatureTO
     {
-        string Id { get; set; }
-        int Temp { get; set; }
+        public string Id { get; set; }
+        public int Temp { get; set; }
 
         public Temperature Transform()
         {
