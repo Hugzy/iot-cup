@@ -27,6 +27,7 @@ namespace Server
                 {
                     services.AddHostedService<MqttBackgroundService>();
                     services.AddSingleton<IDbService, DbService>();
+                    
                 })
                 ;
     }

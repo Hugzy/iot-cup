@@ -11,10 +11,12 @@ namespace Server.Controllers
     public class CupController : Controller
     {
         private readonly IDbService _dbService;
+        private readonly ICupService _cupService;
         
-        public CupController(IDbService dbService)
+        public CupController(IDbService dbService, ICupService cupService)
         {
             _dbService = dbService;
+            _cupService = cupService;
         }
 
         [HttpGet]
@@ -39,8 +41,14 @@ namespace Server.Controllers
         [HttpPost("update/{id}")]
         public ActionResult UpdateCup(string id, [FromForm] CupFormData cup)
         {
-            _dbService.UpdateCup(id, cup);
+            _cupService.UpdateCup(id,cup);
             return Redirect("/index.html");
+        }
+        [HttpPost("locate/{id}")]
+        public ActionResult UpdateCup(string id)
+        {
+            _cupService.LocateCup(id);
+            return Ok();
         }
 
         [HttpPost]

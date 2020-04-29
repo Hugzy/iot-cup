@@ -61,6 +61,7 @@ function connectedCupElementCreator(cup){
         `        <li class="list-group-item">Min-Temp: ${cup.mintemp} °C</li>\n ` +
         `    </ul>\n` +
         `    <a href="${host}/config.html?id=${cup.mac}" class="btn btn-primary" style="margin-top: 1rem">Configure</a>` +
+        `    <button type="button" class="btn btn-primary" onclick="locateCup('${cup.mac}')" style="margin-top: 1rem">Locate Cup</button>` +
         '  </div>\n' +
         '  <p style="font-family: \'Helvetica Neue\';font-size: 12px;text-align: center">Made by: JFD</p>\n' +
         '</div>\n'
@@ -70,6 +71,9 @@ function connectedCupElementCreator(cup){
     amountOfCards += 1;
 }
 
+function locateCup(id){
+    fetch(host+'/api/cup/locate/'+id,{method: 'POST'})
+}
 
 function clearMainDiv() {
     var mainDiv = document.getElementById('main');

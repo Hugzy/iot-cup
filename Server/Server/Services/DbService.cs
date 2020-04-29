@@ -22,10 +22,9 @@ namespace Server.Services
         private string sqlGetCups = "SELECT * FROM tcup";
         private string sqlInsertTemperature = "INSERT INTO ttemperature (id, temp) values (@Id, @Temp)";
         private string sqlCupDisconnected = "UPDATE tcup SET connected = false WHERE id = @Id";
-
         private string sqlCupUpdate =
             "UPDATE tcup SET displayname = @DisplayName, mintemp = @MinTemp, maxtemp = @MaxTemp WHERE id = @Id";
-
+        
         private JsonSerializerOptions _jsonOptions;
 
         public DbService()
@@ -39,7 +38,7 @@ namespace Server.Services
                 "User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
         }
 
-        public void ConnectCup(string jsonStr)
+        public Cup ConnectCup(string jsonStr)
         {
             var cup = JsonSerializer.Deserialize<Cup>(jsonStr, _jsonOptions);
             using (var connection = GetDbConnection())
@@ -54,6 +53,8 @@ namespace Server.Services
                     var affectedRows = connection.Execute(sqlCupInsert, cup);
                 }
             }
+
+            return cup;
         }
 
         public async Task<IEnumerable<Temperature>> GetTemperature(string id, int limit)
