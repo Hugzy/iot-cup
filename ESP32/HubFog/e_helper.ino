@@ -1,18 +1,26 @@
-String jsonfyMacadress(String t) {
-  //  DynamicJsonDocument doc(jsonCap_Connected);
-  //  doc["Id"] = t;
-  //
-  //  String stringfied;
-  //  Serial.println(t);
-  //  serializeJson(doc, stringfied);
-  //    Serial.println(stringfied);
-  //  return stringfied;
+String jsonfyMacadress(String mac) {
 
-  const size_t capacity = JSON_OBJECT_SIZE(1);
-  DynamicJsonDocument doc(capacity);
+  DynamicJsonDocument doc(jsonCap_SendMac);
 
-  doc["Id"] = "suckMac";
-  String Serialtest;
-  serializeJson(doc, Serialtest);
-  return Serialtest;
+  doc["Id"] = mac;
+  String jsonfied;
+  serializeJson(doc, jsonfied);
+  return jsonfied;
+}
+
+String jsonfyTemp(String mac, int temp ) {
+  DynamicJsonDocument doc(jsonCap_Send);
+  doc["Id"] = mac;
+  doc["temp"] = temp;
+
+  String stringfied;
+  serializeJson(doc, stringfied);
+  return stringfied;
+}
+
+DynamicJsonDocument toJson(String json) {
+  
+  DynamicJsonDocument doc(jsonCap_ReceiveEdge);
+  deserializeJson(doc, json);
+  return doc;
 }

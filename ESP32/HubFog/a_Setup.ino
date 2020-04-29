@@ -28,8 +28,3 @@ void setupWifi() {
   }
   USE_SERIAL.println(WiFi.localIP());
 }
-
-void setupWebsocket() {
-  webSocket.begin();
-  webSocket.onEvent(webSocketEvent);
-}
