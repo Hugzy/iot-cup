@@ -18,10 +18,25 @@ void processCollectTemp() {
   }
 }
 
+bool monitorTempInsideComfortFirst = true;
+bool monitorTempOutsideComfortFirst = true;
 void monitorTemp() {
 
-  if (!(currentTemperature >= ComfortMinTemp && currentTemperature <= ComfortMaxTemp)) {
-    Serial.println("Temperature is violated");
-    
+  if ((currentTemperature >= ComfortMinTemp && currentTemperature <= ComfortMaxTemp)) {
+    if (monitorTempInsideComfortFirst) {
+      // Inside Comfort Temp Range
+      monitorTempInsideComfortFirst = false;
+      monitorTempOutsideComfortFirst = true;
+      SoundTempComfort();
+    }
+
+  } else {
+    if (monitorTempOutsideComfortFirst) {
+      // Violates Comfort Temp Range
+      monitorTempInsideComfortFirst = true;
+      monitorTempOutsideComfortFirst = false;
+      Serial.println("Temperature is violated");
+      SoundTempViolation();
+    }
   }
 }

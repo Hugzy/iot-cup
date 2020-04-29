@@ -6,10 +6,6 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       break;
     }
     case WStype_CONNECTED:{
-      USE_SERIAL.printf("[WSc] Connected to url: %s\n", payload);
-
-      // send message to server when Connected
-      
       String jsonMacaddres = jsonfyMacadress(macaddres);
       Serial.println(jsonMacaddres);
       webSocket.sendTXT(jsonMacaddres);
@@ -29,9 +25,6 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
               locateCup = true;  
             }
           }
-
-
-          
       break;
     }
   }
