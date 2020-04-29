@@ -6,5 +6,7 @@ namespace Server.Services.Interfaces
     {
         public void UpdateCup(string id, CupFormData cupUpdateData);
 
+        public void LocateCup(string id);
+
     }
 }

@@ -4,7 +4,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Server.Models;
 using Server.Services.Interfaces;
@@ -18,12 +17,14 @@ namespace Server.Services
         private MqttClient _client;
         private string _clientId;
         private IDbService _dbService;
-        private ChannelReader<CupConfig> _mqttConfigChannelReader;
+        private ChannelReader<Config> _mqttConfigChannelReader;
         
-        public MqttBackgroundService(IDbService dbService, Channel<CupConfig> mqttConfigChannel)
+        
+        public MqttBackgroundService(IDbService dbService, Channel<Config> mqttConfigChannel)
         {
             _dbService = dbService;
             _mqttConfigChannelReader = mqttConfigChannel.Reader;
+            
         }
         
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -39,9 +40,23 @@ namespace Server.Services
             
             await foreach (var item in _mqttConfigChannelReader.ReadAllAsync(cancellationToken))
             {
-                var strValue = JsonSerializer.Serialize(item);
-                _client.Publish("/cup/temprange", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                switch (item)
+                {
+                    case CupConfig c :
+                        var strValue = JsonSerializer.Serialize(c);
+                        _client.Publish("/cup/temprange", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                        break;
+                    case LocateCup l :
+                        var locateValue = JsonSerializer.Serialize(l);
+                        _client.Publish("/cup/locate", Encoding.UTF8.GetBytes(locateValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                        break;
+                    default:
+                        break;
+                }
+                
             }
+            
+
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

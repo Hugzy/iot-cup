@@ -29,8 +29,8 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var channel = Channel.CreateUnbounded<CupConfig>();
-            services.AddSingleton(channel);
+            var configChannel = Channel.CreateUnbounded<Config>();
+            services.AddSingleton(configChannel);
             services.AddScoped<ICupService, CupService>();
             services.AddControllers();
         }

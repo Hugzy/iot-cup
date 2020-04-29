@@ -36,6 +36,12 @@ namespace Server.Controllers
             _cupService.UpdateCup(id,cup);
             return Redirect("/index.html");
         }
+        [HttpPost("locate/{id}")]
+        public ActionResult UpdateCup(string id)
+        {
+            _cupService.LocateCup(id);
+            return Ok();
+        }
 
         [HttpPost]
         public ActionResult PostCup([FromBody] Cup cup)

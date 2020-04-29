@@ -7,12 +7,13 @@ namespace Server.Services
     public class CupService : ICupService
     {
         private readonly IDbService _dbService;
-        private readonly ChannelWriter<CupConfig> _mqttConfigChannelWriter;
+        private readonly ChannelWriter<Config> _mqttConfigChannelWriter;
 
-        public CupService(IDbService dbService, Channel<CupConfig> mqttConfigChannel)
+        public CupService(IDbService dbService, Channel<Config> mqttConfigChannel)
         {
             _dbService = dbService;
             _mqttConfigChannelWriter = mqttConfigChannel.Writer;
+
         }
 
         public void UpdateCup(string id, CupFormData cupUpdateData)
@@ -21,6 +22,13 @@ namespace Server.Services
             var cupConfig = Transform(id, cupUpdateData);
             _mqttConfigChannelWriter.WriteAsync(cupConfig);
         }
+
+        public void LocateCup(string id)
+        {
+            var locateCup = new LocateCup {Id = id};
+            _mqttConfigChannelWriter.WriteAsync(locateCup);
+        }
+
 
         private CupConfig Transform(string id, CupFormData cupFormData)
         {
