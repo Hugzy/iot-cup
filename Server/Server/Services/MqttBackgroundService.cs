@@ -71,7 +71,11 @@ namespace Server.Services
             {
                 case Topics.CONNECT:
                     var jsonStr = Encoding.UTF8.GetString(e.Message);
-                    _dbService.ConnectCup(jsonStr);
+                    var connectedCup = _dbService.ConnectCup(jsonStr);
+                    connectedCup = _dbService.GetCup(connectedCup.Id);
+                    var cupConfig = Transform(connectedCup.Id, connectedCup.MaxTemp, connectedCup.MinTemp);
+                    var strValue = JsonSerializer.Serialize(cupConfig);
+                    _client.Publish("/cup/temprange", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                     break;
                 case Topics.DISCONNECT:
                     var jsonString = Encoding.UTF8.GetString(e.Message);
@@ -87,6 +91,16 @@ namespace Server.Services
                 default:
                     break;
             }
+        }
+        
+        private CupConfig Transform(string id, int maxtemp, int mintemp)
+        {
+            const double a = 0.0627918;
+            const double b = -20.9698;
+            var maxTempTransformed = (maxtemp - b) / a ;
+            var minTempTransformed = (mintemp - b) / a ;
+            return new CupConfig {Id = id, MaxTemp = (int) maxTempTransformed, MinTemp = (int) minTempTransformed};
+
         }
     }
 }

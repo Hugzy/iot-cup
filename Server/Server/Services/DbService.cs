@@ -32,7 +32,7 @@ namespace Server.Services
             return new NpgsqlConnection("User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
         }
         
-        public void ConnectCup(string jsonStr)
+        public Cup ConnectCup(string jsonStr)
         {
             var cup = JsonSerializer.Deserialize<Cup>(jsonStr, _jsonOptions);
             using (var connection = GetDbConnection())
@@ -47,6 +47,8 @@ namespace Server.Services
                     var affectedRows = connection.Execute(sqlCupInsert, cup);
                 }
             }
+
+            return cup;
         }
 
         public void InsertTemperature(string jsonStr)

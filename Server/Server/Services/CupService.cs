@@ -34,8 +34,8 @@ namespace Server.Services
         {
             const double a = 0.0627918;
             const double b = -20.9698;
-            var maxTempTransformed = cupFormData.MaxTemp / a - b;
-            var minTempTransformed = cupFormData.MinTemp / a - b;
+            var maxTempTransformed = (cupFormData.MaxTemp - b) / a ;
+            var minTempTransformed = (cupFormData.MinTemp - b) / a ;
             return new CupConfig {Id = id, MaxTemp = (int) maxTempTransformed, MinTemp = (int) minTempTransformed};
 
         }

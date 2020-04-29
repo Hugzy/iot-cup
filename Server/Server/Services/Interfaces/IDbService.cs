@@ -5,7 +5,7 @@ namespace Server.Services.Interfaces
 {
     public interface IDbService
     {
-        public void ConnectCup(string jsonStr);
+        public Cup ConnectCup(string jsonStr);
 
         public void InsertTemperature(string jsonStr);
         
