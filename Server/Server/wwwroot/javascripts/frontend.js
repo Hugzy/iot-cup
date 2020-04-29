@@ -106,7 +106,6 @@ function fetchTemperature(cup) {
         .then(response => {return response.json()})
         .then(json => {return json[0]})
         .then(jsonElem => {
-            console.log(jsonElem.temp);
             var oldChild = document.getElementById(`current-temp-element-${cup.mac}`);
             document.getElementById(`devices-info-${cup.mac}`).removeChild(oldChild);
             var newChild =  document.createElement("LI");
