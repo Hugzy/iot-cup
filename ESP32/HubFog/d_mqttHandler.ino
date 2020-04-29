@@ -1,18 +1,22 @@
 void onConnectionEstablished()
 {
-  // Subscribe to "mytopic/test" and display received message to Serial
-//  mqttClient.subscribe("/mytopic/test", [](const String & payload) {
-//    USE_SERIAL.println(payload);
-//  });
-  //
-  //  // Subscribe to "mytopic/wildcardtest/#" and display received message to Serial
-  //  client.subscribe("mytopic/wildcardtest/#", [](const String & topic, const String & payload) {
-  //    Serial.println(topic + ": " + payload);
-  //  });
-  //
-  //  // Publish a message to "mytopic/test"
-  //  client.publish("/mytopic/test", "This is a message"); // You can activate the retain flag by setting the third parameter to true
-
-  // Execute delayed instructions
+  //Subscribe to "/cup/temprange" and display received message to Serial
+  mqttClient.subscribe("/cup/temprange", [](const String & payload) {
+    String received = payload;
+    USE_SERIAL.println(received);
+    DynamicJsonDocument json = toJsonCloud(received);
+    //Find the corresponding edge
+    String mac = json["Id"];
+    int minTemp = json["MinTemp"];
+    int maxTemp = json["MaxTemp"];
+    
+    for (int i = 0; i < sizeof(connectedEdges); i++) {
+      if (connectedEdges[i] == mac) {
+        String sendJson = jsonfyTempRange(mac, minTemp, maxTemp);
+        webSocket.sendTXT(i, sendJson);
+        break;
+      }
+    }
+  });
 
 }

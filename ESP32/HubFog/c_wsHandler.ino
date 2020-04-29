@@ -19,20 +19,20 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
     case WStype_TEXT: {
         if (mqttClient.isMqttConnected()) {
           String received = reinterpret_cast<const char*>(payload);
-          DynamicJsonDocument json = toJson(received);
-          String action = json["action"];
-          if (action == "id") {
-            String mac = json["mac"];
+          DynamicJsonDocument json = toJsonEdge(received);
+          String action = json["Action"];
+          if (action == "Id") {
+            String mac = json["Mac"];
             String jsonmac = jsonfyMacadress(mac);
             Serial.println(jsonmac);
             connectedEdges[num] = mac;
-            mqttClient.publish("/cup/connect", jsonmac );
-          } else if (action == "temp") {
-            String mac = json["id"];
-            int temp = json["temp"];
-            String json = jsonfyTemp(mac, temp);
-            Serial.println(json);
-            mqttClient.publish("/cup/temperature", json );
+            mqttClient.publish("/cup/connect", jsonmac);
+          } else if (action == "Temp") {
+            String mac = json["Id"];
+            int temp = json["Temp"];
+            String sendJson = jsonfyTemp(mac, temp);
+            Serial.println(sendJson);
+            mqttClient.publish("/cup/temperature", sendJson);
           }
 
         }

@@ -1,7 +1,7 @@
 String jsonfyMacadress(String mac) {
   DynamicJsonDocument doc(jsonCap_send);
-  doc["action"] = "id";
-  doc["mac"] = mac;
+  doc["Action"] = "Id";
+  doc["Mac"] = mac;
 
   String stringfied;
   serializeJson(doc, stringfied);
@@ -11,11 +11,18 @@ String jsonfyMacadress(String mac) {
 
 String jsonfyTemp(String mac, int temp ) {
   DynamicJsonDocument doc(jsonCap_send);
-  doc["action"] = "temp";
+  doc["Action"] = "Temp";
   doc["Id"] = mac;
-  doc["temp"] = temp;
+  doc["Temp"] = temp;
 
   String stringfied;
   serializeJson(doc, stringfied);
   return stringfied;
+}
+
+DynamicJsonDocument toJson(String json) {
+  
+  DynamicJsonDocument doc(jsonCap_Receive);
+  deserializeJson(doc, json);
+  return doc;
 }

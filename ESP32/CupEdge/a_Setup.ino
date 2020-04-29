@@ -3,7 +3,15 @@ void setup() {
   setupSerial();
   setupWifi();
   setupWebsocket();
+  setupThreads();
+}
 
+void setupThreads(){
+  tempCollectThread->onRun(processCollectTemp);
+  tempCollectThread->setInterval(100);
+
+  tempMonitorThread->onRun(monitorTemp);
+  tempMonitorThread->setInterval(1100);
 }
 
 void setupSerial(){

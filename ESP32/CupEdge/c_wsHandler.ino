@@ -16,10 +16,14 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       break;
     }
     case WStype_TEXT:{
-      USE_SERIAL.printf("[WSc] get text: %s\n", payload);
-
-      // send message to server
-      // webSocket.sendTXT("message here");
+      String received = reinterpret_cast<const char*>(payload);
+      Serial.println(received);
+      DynamicJsonDocument json = toJson(received);
+      String action = json["Action"];
+          if (action == "tempConfig") {
+            ComfortMinTemp = json["MinTemp"];
+            ComfortMaxTemp = json["MaxTemp"];
+          }
       break;
     }
   }

@@ -25,6 +25,7 @@ WebSocketsServer webSocket = WebSocketsServer(81);
 const size_t jsonCap_SendMac = JSON_OBJECT_SIZE(4) + 80;
 const size_t jsonCap_Send = JSON_OBJECT_SIZE(4) + 80;
 const size_t jsonCap_ReceiveEdge = JSON_OBJECT_SIZE(4) + 80;
+const size_t jsonCap_ReceiveCloud = JSON_OBJECT_SIZE(4) + 80;
 
 #define USE_SERIAL Serial
 String connectedEdges[10];

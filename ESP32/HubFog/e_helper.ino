@@ -11,16 +11,37 @@ String jsonfyMacadress(String mac) {
 String jsonfyTemp(String mac, int temp ) {
   DynamicJsonDocument doc(jsonCap_Send);
   doc["Id"] = mac;
-  doc["temp"] = temp;
+  doc["Temp"] = temp;
 
   String stringfied;
   serializeJson(doc, stringfied);
   return stringfied;
 }
 
-DynamicJsonDocument toJson(String json) {
+
+
+String jsonfyTempRange(String mac, int minTemp, int maxTemp ) {
+  DynamicJsonDocument doc(jsonCap_Send);
+  doc["Action"] = "tempConfig";
+  doc["Id"] = mac;
+  doc["MinTemp"] = minTemp;
+  doc["MaxTemp"] = maxTemp;
+
+  String stringfied;
+  serializeJson(doc, stringfied);
+  return stringfied;
+}
+
+DynamicJsonDocument toJsonEdge(String json) {
   
   DynamicJsonDocument doc(jsonCap_ReceiveEdge);
+  deserializeJson(doc, json);
+  return doc;
+}
+
+DynamicJsonDocument toJsonCloud(String json) {
+  
+  DynamicJsonDocument doc(jsonCap_ReceiveCloud);
   deserializeJson(doc, json);
   return doc;
 }
