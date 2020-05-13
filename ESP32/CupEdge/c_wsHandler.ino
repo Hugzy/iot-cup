@@ -24,6 +24,11 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
             if (mac == macaddres){
               locateCup = true;  
             }
+          } else if (action == "benchmark") {
+            String mac = json["Id"];
+            if (mac == macaddres){
+              webSocket.sendTXT(received);
+            }
           }
       break;
     }
