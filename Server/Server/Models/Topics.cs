@@ -9,5 +9,6 @@ namespace Server.Models
         public const string CONNECT = "/cup/connect";
         public const string DISCONNECT = "/cup/disconnect";
         public const string TEMPERATURE = "/cup/temperature";
+        public const string TEMPRANGE = "/cup/temprange";
     }
 }

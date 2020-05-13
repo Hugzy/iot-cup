@@ -75,14 +75,14 @@ namespace Server.Services
                     connectedCup = _dbService.GetCup(connectedCup.Id);
                     var cupConfig = Transform(connectedCup.Id, connectedCup.MaxTemp, connectedCup.MinTemp);
                     var strValue = JsonSerializer.Serialize(cupConfig);
-                    _client.Publish("/cup/temprange", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                    _client.Publish(Topics.TEMPRANGE, Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                     break;
                 case Topics.DISCONNECT:
                     var jsonString = Encoding.UTF8.GetString(e.Message);
                     _dbService.DisconnectCup(jsonString);
                     break;
                 case Topics.TEST:
-                    Console.WriteLine("Some donkey is doing testing");
+                    Console.WriteLine("Testing Endpoint Hit");
                     break;
                 case Topics.TEMPERATURE:
                     var temperature = Encoding.UTF8.GetString(e.Message);
