@@ -42,6 +42,25 @@ String jsonfyTempRange(String mac, int minTemp, int maxTemp ) {
   return stringfied;
 }
 
+String jsonfyBenchmarkToEdge(String mac, String ticks) {
+  DynamicJsonDocument doc(jsonCap_Send);
+  doc["Action"] = "benchmark";
+  doc["Id"] = mac;
+  doc["StartTicks"] = ticks;
+  String stringfied;
+  serializeJson(doc, stringfied);
+  return stringfied;
+}
+
+String jsonfyBenchmarkToCloud(String mac, String ticks) {
+  DynamicJsonDocument doc(jsonCap_Send);
+  doc["Id"] = mac;
+  doc["StartTicks"] = ticks;
+  String stringfied;
+  serializeJson(doc, stringfied);
+  return stringfied;
+}
+
 DynamicJsonDocument toJsonEdge(String json) {
   
   DynamicJsonDocument doc(jsonCap_ReceiveEdge);

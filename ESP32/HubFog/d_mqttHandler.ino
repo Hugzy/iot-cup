@@ -24,6 +24,18 @@ void onConnectionEstablished()
     webSocket.sendTXT(getWsClient(mac), sendJson);
   });
 
+    //Subscribe to "/cup/benchmark" for benchmark
+  mqttClient.subscribe("/cup/benchmark", [](const String & payload) {
+    String received = payload;
+    USE_SERIAL.println(received);
+    DynamicJsonDocument json = toJsonCloud(received);
+    //Find the corresponding edge
+    String mac = json["Id"];
+    String ticks = json["StartTicks"];
+    String sendJson = jsonfyBenchmarkToEdge(mac,ticks);
+    webSocket.sendTXT(getWsClient(mac), sendJson);
+  });
+
 }
 
 int getWsClient(String mac) {

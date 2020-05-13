@@ -33,6 +33,12 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
             String sendJson = jsonfyTemp(mac, temp);
             Serial.println(sendJson);
             mqttClient.publish("/cup/temperature", sendJson);
+          } else if (action == "benchmark") {
+            String mac = json["Id"];
+            String ticks = json["StartTicks"];
+            String sendJson = jsonfyBenchmarkToCloud(mac, ticks);
+            //Serial.println(sendJson);
+            mqttClient.publish("/cup/benchmark/return", sendJson);
           }
 
         }
