@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
@@ -15,89 +18,73 @@ namespace MosquittoClientDotnetCore
 {
     class Program
     {
+        private const int UPPER = 3600;
+        private static  JsonSerializerOptions _jsonOptions = new JsonSerializerOptions {PropertyNameCaseInsensitive = true};
+        private static List<long> results;
+        private static MqttClient subClient;
+        private static MqttClient pubClient;
+         
         public static void Main(string[] args)
         {
+            results = new List<long>();
             SubMqtt();
-            //PubMqtt();
+            PubMqtt();
+            //Wait for results to completely fill
+            Thread.Sleep(2000);
+            using var writer = new StreamWriter("results.txt");
+            foreach (var result in results)
+            {
+                writer.WriteLine(result);
+            }
+            subClient.Disconnect();
+            pubClient.Disconnect();
         }
 
         private static void PubMqtt()
         {
             // create client instance 
-            MqttClient client = new MqttClient("167.172.184.103"); 
-             
-            string clientId = Guid.NewGuid().ToString(); 
-            client.Connect(clientId); 
-             
-            string strValue = Convert.ToString("{\"Id\":\"macMyAss\"}"); 
-             
-            // publish a message on "/home/temperature" topic with QoS 2 
-            client.Publish("/cup/connect", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            pubClient = new MqttClient("167.172.184.103");
+
+            string clientId = Guid.NewGuid().ToString();
+            pubClient.Connect(clientId);
+            for (int i = 0; i < UPPER; i++)
+            {
+                var nowTicks = DateTime.Now.Ticks;
+                string strValue = Convert.ToString("{\"Id\":\"30:AE:A4:DD:C9:18\", \"StartTicks\":\"" + nowTicks + "\"}");
+                // publish a message on "/home/temperature" topic with QoS 2 
+                pubClient.Publish("/cup/benchmark", Encoding.UTF8.GetBytes(strValue), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Thread.Sleep(1000);
+            }
+            
         }
 
         private static void SubMqtt()
         {
-            MqttClient client = new MqttClient("167.172.184.103");
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+            subClient = new MqttClient("167.172.184.103");
+            subClient.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
             string clientId = Guid.NewGuid().ToString();
-            client.Connect(clientId);
-
-            // subscribe to the topic "/home/temperature" with QoS 2 
-            client.Subscribe(new string[] {"/cup/connect"}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+            subClient.Connect(clientId);
+            
+            subClient.Subscribe(new string[] {"/cup/benchmark/return"}, new byte[] {MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
         }
 
-        static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e) 
+        static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             switch (e.Topic)
             {
-                case "/cup/connect":
-                    var jsonStr = Encoding.UTF8.GetString(e.Message);
-                    ConnectCup(jsonStr);
+                case "/cup/locate":
+                    Console.WriteLine(Encoding.UTF8.GetString(e.Message));
                     break;
-                case "/test/mytopic":
-                    Console.WriteLine("Some donkey is doing testing");
+                case "/cup/benchmark/return":
+                    var nowTicks = DateTime.Now.Ticks;
+                    var benchmark = JsonSerializer.Deserialize<Benchmark>(e.Message, _jsonOptions);
+                    var elapsedTicks = nowTicks - Convert.ToInt64(benchmark.StartTicks);
+                    results.Add(elapsedTicks);
                     break;
                 default:
                     break;
             }
-           
-        }
 
-        private static string sqlCupInsert =
-            "INSERT INTO tcup (id,display_name,connected) Values (@Id,'SomeRandomCupName',true)";
-
-        private static string sqlCheckCup = "SELECT * FROM tcup WHERE id = @Id";
-        private static string sqlCupConnected = "UPDATE tcup SET connected = true WHERE id = @Id";
-        private static void ConnectCup(string jsonStr)
-        {
-            var cup = JsonSerializer.Deserialize<Cup>(jsonStr);
-            using (var connection = GetDbConnection())
-            {
-                var existingCup = connection.QueryFirstOrDefault<Cup>(sqlCheckCup, cup);
-                if (existingCup != null)
-                {
-                    var affectedRows = connection.Execute(sqlCupConnected, cup);
-                }
-                else
-                {
-                    var affectedRows = connection.Execute(sqlCupInsert, cup);
-                }
-            }
         }
-
-        private static NpgsqlConnection GetDbConnection()
-        {
-            return new NpgsqlConnection("User ID=postgres;Password=dininfo1;Host=167.172.184.103;Database=postgres;Port=5432");
-        }
-        
-        private class Cup
-        {
-            public string Id { get; set; }
-            public string DisplayName { get; set; }
-            public int MinTemp { get; set; }
-            public int MaxTemp { get; set; }
-            public bool Connected { get; set; }
-        }
-        
     }
 }
